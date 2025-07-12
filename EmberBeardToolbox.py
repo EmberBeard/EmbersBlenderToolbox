@@ -69,18 +69,8 @@ class VIEW3D_PT_EmbersTools(bpy.types.Panel):
     bl_label = "Ember'sToolbox"
     
     def draw(self, context):
-        #define the UI layout of the pannel
-        row1 = self.layout.row()
-        row1.operator("mesh.primitive_cube_add", text="Make Cube")#bpy.ops.mesh.primitive_cube_add(size=2, enter_editmode=False, align='WORLD', location=(0, 0, 0), scale=(1, 1, 1))
-        row2 = self.layout.row()
-        row2.operator("mesh.primitive_ico_sphere_add", text="Make Ico Sphere")
-        row3 = self.layout.row()
-        row3.operator("object.shade_smooth", text="Make It Pretty")
-        row4 = self.layout.row()
-        row4.operator("object.delete", text="Nuke that MF")
-        self.layout.separator()
-        row5 = self.layout.row()
-        row5.operator("mesh.recapture_shape_keys", text="Recapture as Shape Keys")
+        RecaptureRow = self.layout.row()
+        RecaptureRow.operator("mesh.recapture_shape_keys", text="Recapture as Shape Keys")
     
 def register():
     bpy.utils.register_class(VIEW3D_PT_EmbersTools)
