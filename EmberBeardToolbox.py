@@ -107,6 +107,11 @@ class ARM_OT_BindControlRig(bpy.types.Operator):
         current_mode = context.mode
         bpy.ops.object.mode_set(mode='POSE')
 
+        copy_transform_constraint = armature_to.constraints.new('COPY_TRANSFORMS')
+        copy_transform_constraint.target = armature_from
+        copy_transform_constraint.target_space = 'WORLD'
+        copy_transform_constraint.owner_space = 'WORLD'
+
         for t_bone in armature_to.pose.bones:
             for f_bone in armature_from.pose.bones:
                 if (t_bone.name == f_bone.name):
