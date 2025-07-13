@@ -48,7 +48,7 @@ class MES_OT_RecaptureShapeKeys(bpy.types.Operator):
     bl_options = {"REGISTER", "UNDO"}
     
     def execute(self, context):
-        print("custom job start")
+        print("Recapturing all timeline marked animation poses as shape keys")
         PrimaryObject = context.active_object
         Selection = context.selected_objects
         
@@ -98,6 +98,25 @@ class ARM_OT_RemoveControlRig(bpy.types.Operator):
     
     def execute(self, context):
         print("Removing the control rig")
+        Selection = context.selected_objects
+        if(len(Selection) != 1):
+            print("Must have only one armature object selected")
+            return {"CANCELLED"}
+        if(context.active_object.type != 'ARMATURE'):
+            print("Must have only one armature object selected")
+            return {"CANCELLED"}
+        
+        armature = context.active_object
+        current_mode = context.mode
+        bpy.ops.object.mode_set(mode='POSE')
+        for bone in armature.pose.bones:
+            # Check if the bone has a "COPY_TRANSFORMS" constraint
+                for constraint in bone.constraints:
+                    if constraint.type == 'COPY_TRANSFORMS':
+                        # Remove the constraint
+                        bone.constraints.remove(constraint)
+        bpy.ops.object.mode_set(mode=current_mode)
+        print()
         return {"FINISHED"}
 
 # Clear Console operator
@@ -138,7 +157,7 @@ class VIEW3D_PT_EmbersTools(bpy.types.Panel):
         BindControlRigRow = self.layout.row()
         BindControlRigRow.operator("armature.bind_control_rig", text="Bind control rig")
         BindControlRigRow = self.layout.row()
-        BindControlRigRow.operator("armature.remove_control_rig", text="Recapture as Shape Keys")
+        BindControlRigRow.operator("armature.remove_control_rig", text="Remove control rig bindings")
         
         self.layout.separator()
         
