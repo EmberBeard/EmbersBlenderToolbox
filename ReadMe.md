@@ -1,6 +1,6 @@
-# Ember Beard's Blender Toolbox
+# EmberBeard's Blender Toolbox
 
-This is a small addon for blender containing a bunch of custom utilities to make my avatar development process a little easier. Maybe you'll find this useful.
+This is a small addon for blender containing a bunch of custom utilities to make my character/avatar development process for videogames a little easier. Maybe you'll find this useful.
 
 ## Tools
 
