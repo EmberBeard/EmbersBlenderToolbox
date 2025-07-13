@@ -1,4 +1,5 @@
 import bpy
+import os
 
 bl_info = {
     "name": "Ember's Toolbox",
@@ -61,22 +62,75 @@ class MES_OT_RecaptureShapeKeys(bpy.types.Operator):
             DestroyShapeKeyByNameIfItExists(PrimaryObject, M.name)
             SaveCurrentFramePoseAsShapeKey(PrimaryObject, M.name, ArmatureModifier.name)
         return {"FINISHED"}
+    
+class ARM_OT_BindControlRig(bpy.types.Operator):
+    bl_idname = "armature.bind_control_rig"
+    bl_label = "Bind Control Rig"
+    bl_options = {"REGISTER", "UNDO"}
+    
+    def execute(self, context):
+        print("Binding the control rig")
+        return {"FINISHED"}
+    
+class ARM_OT_RemoveControlRig(bpy.types.Operator):
+    bl_idname = "armature.remove_control_rig"
+    bl_label = "Remove The Control Rig"
+    bl_options = {"REGISTER", "UNDO"}
+    
+    def execute(self, context):
+        print("Removing the control rig")
+        return {"FINISHED"}
+
+class CON_OT_ClearConsole(bpy.types.Operator):
+    bl_idname = "console.custom_clear"
+    bl_label = "Custom Console Clear"
+    bl_options = {"REGISTER", "UNDO"}
+    
+    def execute(self, context):
+        if(os.name == "nt"):
+            os.system("cls")
+        else:
+            os.system('clear')
+        
+        return {"FINISHED"}
 
 class VIEW3D_PT_EmbersTools(bpy.types.Panel):
     bl_space_type = "VIEW_3D" # https://docs.blender.org/api/current/bpy_types_enum_items/space_type_items.html#rna-enum-space-type-items
     bl_region_type = "UI" # https://docs.blender.org/api/current/bpy_types_enum_items/region_type_items.html#rna-enum-region-type-items
-    bl_category = "Ember"
+    bl_category = "Ember's Tools"
     bl_label = "Ember'sToolbox"
     
     def draw(self, context):
+        
+        self.layout.label(text="Geometry")
         RecaptureRow = self.layout.row()
         RecaptureRow.operator("mesh.recapture_shape_keys", text="Recapture as Shape Keys")
+        
+        self.layout.separator()
+        
+        self.layout.label(text="Rigging")
+        BindControlRigRow = self.layout.row()
+        BindControlRigRow.operator("armature.bind_control_rig", text="Bind control rig")
+        BindControlRigRow = self.layout.row()
+        BindControlRigRow.operator("armature.remove_control_rig", text="Recapture as Shape Keys")
+        
+        self.layout.separator()
+        
+        self.layout.label(text="Development")
+        ClearRow = self.layout.row()
+        ClearRow.operator("console.custom_clear", text="Clear the terminal")
     
 def register():
     bpy.utils.register_class(VIEW3D_PT_EmbersTools)
     bpy.utils.register_class(MES_OT_RecaptureShapeKeys)
+    bpy.utils.register_class(ARM_OT_BindControlRig)
+    bpy.utils.register_class(ARM_OT_RemoveControlRig)
+    bpy.utils.register_class(CON_OT_ClearConsole)
 
 def unregister():
+    bpy.utils.unregister_class(CON_OT_ClearConsole)
+    bpy.utils.unregister_class(ARM_OT_RemoveControlRig)
+    bpy.utils.unregister_class(AR<_OT_BindControlRig)
     bpy.utils.unregister_class(MES_OT_RecaptureShapeKeys)
     bpy.utils.unregister_class(VIEW3D_PT_EmbersTools)
 
