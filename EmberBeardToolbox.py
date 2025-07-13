@@ -11,23 +11,36 @@ bl_info = {
     "category": "Development",
 }
 
+#===========================================================
+# Mini utility functions
+#===========================================================
+
 def GetArmatureModifierFromObject(InObject):
     for modifier in InObject.modifiers:
         if (modifier.type == 'ARMATURE'):
             return modifier
     return None
 
+#-----------------------------------------------------------
+
 def DestroyShapeKeyByNameIfItExists(InObject, MarkerName):
     if MarkerName in InObject.data.shape_keys.key_blocks:
         index = InObject.data.shape_keys.key_blocks.keys().index(MarkerName)
         InObject.active_shape_key_index = index
         bpy.ops.object.shape_key_remove()
-    
+
+#-----------------------------------------------------------
 
 def SaveCurrentFramePoseAsShapeKey(InObject, MarkerName, ModifierName):
     bpy.ops.object.modifier_apply_as_shapekey(keep_modifier=True, modifier=ModifierName)
     InObject.data.shape_keys.key_blocks[ModifierName].name = MarkerName #When you save a shapekey from a modifier it inherits the name of the modifier. If a shapekey with that name already exists then it's corrected. I do not presently account for this but at the same time - I WILL NEVER leave a shape key left with the default name, so in theory they shouldn't be a problem....... but this will be an issue for someone at some point, consider this your probably too late warning and subsequent appology. (hugs)
-    
+
+#===========================================================
+# Custom operators
+#===========================================================
+
+# Shapekey recapture operator
+#-----------------------------------------------------------
 
 class MES_OT_RecaptureShapeKeys(bpy.types.Operator):
     bl_idname = "mesh.recapture_shape_keys"
@@ -62,7 +75,10 @@ class MES_OT_RecaptureShapeKeys(bpy.types.Operator):
             DestroyShapeKeyByNameIfItExists(PrimaryObject, M.name)
             SaveCurrentFramePoseAsShapeKey(PrimaryObject, M.name, ArmatureModifier.name)
         return {"FINISHED"}
-    
+
+# Bind Control Rig operator
+#-----------------------------------------------------------
+
 class ARM_OT_BindControlRig(bpy.types.Operator):
     bl_idname = "armature.bind_control_rig"
     bl_label = "Bind Control Rig"
@@ -71,7 +87,10 @@ class ARM_OT_BindControlRig(bpy.types.Operator):
     def execute(self, context):
         print("Binding the control rig")
         return {"FINISHED"}
-    
+
+# Remove Control Rig operator
+#-----------------------------------------------------------
+
 class ARM_OT_RemoveControlRig(bpy.types.Operator):
     bl_idname = "armature.remove_control_rig"
     bl_label = "Remove The Control Rig"
@@ -80,6 +99,9 @@ class ARM_OT_RemoveControlRig(bpy.types.Operator):
     def execute(self, context):
         print("Removing the control rig")
         return {"FINISHED"}
+
+# Clear Console operator
+#-----------------------------------------------------------
 
 class CON_OT_ClearConsole(bpy.types.Operator):
     bl_idname = "console.custom_clear"
@@ -93,6 +115,10 @@ class CON_OT_ClearConsole(bpy.types.Operator):
             os.system('clear')
         
         return {"FINISHED"}
+
+#============================pip install fake-bpy-module-latest===============================
+# The main helper panel with all the UI
+#===========================================================
 
 class VIEW3D_PT_EmbersTools(bpy.types.Panel):
     bl_space_type = "VIEW_3D" # https://docs.blender.org/api/current/bpy_types_enum_items/space_type_items.html#rna-enum-space-type-items
@@ -119,7 +145,11 @@ class VIEW3D_PT_EmbersTools(bpy.types.Panel):
         self.layout.label(text="Development")
         ClearRow = self.layout.row()
         ClearRow.operator("console.custom_clear", text="Clear the terminal")
-    
+
+#===========================================================
+# Boilerplate registration within Blender 3D
+#===========================================================
+
 def register():
     bpy.utils.register_class(VIEW3D_PT_EmbersTools)
     bpy.utils.register_class(MES_OT_RecaptureShapeKeys)
@@ -130,7 +160,7 @@ def register():
 def unregister():
     bpy.utils.unregister_class(CON_OT_ClearConsole)
     bpy.utils.unregister_class(ARM_OT_RemoveControlRig)
-    bpy.utils.unregister_class(AR<_OT_BindControlRig)
+    bpy.utils.unregister_class(ARM_OT_BindControlRig)
     bpy.utils.unregister_class(MES_OT_RecaptureShapeKeys)
     bpy.utils.unregister_class(VIEW3D_PT_EmbersTools)
 
