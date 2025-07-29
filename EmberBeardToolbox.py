@@ -4,7 +4,7 @@ import os
 bl_info = {
     "name": "Ember's Toolbox",
     "author": "Ember",
-    "version": (0, 0, 2),
+    "version": (0, 0, 3),
     "blender": (4, 0, 0),
     "location": "3D Viewport > Sidebar > Ember's Toolbox",
     "description": "A set of utilities written by and for Ember Beard",
@@ -163,6 +163,41 @@ class ARM_OT_RemoveControlRig(bpy.types.Operator):
         print()
         return {"FINISHED"}
 
+# Import Animation Markers
+#-----------------------------------------------------------
+
+class ToolBoxProperties(bpy.types.PropertyGroup):
+    AnimationMarkersFilePath: bpy.props.StringProperty(
+        name="AnimationMarkersFilePath",
+        description="Path to a txt file denoting animation marker names and spacing",
+        default="",
+        maxlen=1024,
+        subtype='FILE_PATH'
+    )
+
+class ANIM_OT_ImportAnimationMarkers(bpy.types.Operator):
+    bl_idname = "animation.import_animation_markers"
+    bl_label = "ImportAnimationMarkers"
+    bl_options = {"REGISTER", "UNDO"}
+    
+    def execute(self, context):
+        
+        marker_path = context.scene.EmbersToolBox.AnimationMarkersFilePath
+        with open(marker_path, 'r') as open_file:
+            ShowMessageBox("Success", "Importing " + marker_path, 'INFO')
+        
+            Markers = sorted(context.scene.timeline_markers, key=lambda m: m.frame)
+            for M in Markers:
+                context.scene.timeline_markers.remove(M)
+        
+            line_count = 0
+            for line in open_file:
+                if len(line) > 1:
+                    context.scene.timeline_markers.new(line, frame=line_count)
+                line_count = line_count + 1
+        return {"FINISHED"}
+
+
 # Clear Console operator
 #-----------------------------------------------------------
 
@@ -200,8 +235,16 @@ class VIEW3D_PT_EmbersTools(bpy.types.Panel):
         self.layout.label(text="Rigging")
         BindControlRigRow = self.layout.row()
         BindControlRigRow.operator("armature.bind_control_rig", text="Bind control rig")
-        BindControlRigRow = self.layout.row()
-        BindControlRigRow.operator("armature.remove_control_rig", text="Remove control rig bindings")
+        RemoveControlRigRow = self.layout.row()
+        RemoveControlRigRow.operator("armature.remove_control_rig", text="Remove control rig bindings")
+        
+        self.layout.separator()
+
+        self.layout.label(text="Animation")
+        InputFile = self.layout.column(align=True)
+        InputFile.prop(context.scene.EmbersToolBox, "AnimationMarkersFilePath", text="")
+        ImportAnimationMarkersRow = self.layout.row()
+        ImportAnimationMarkersRow.operator("animation.import_animation_markers", text="importAnimationMarkers")
         
         self.layout.separator()
         
@@ -213,19 +256,25 @@ class VIEW3D_PT_EmbersTools(bpy.types.Panel):
 # Boilerplate registration within Blender 3D
 #===========================================================
 
+classes = (
+    ToolBoxProperties,
+    VIEW3D_PT_EmbersTools,
+    MES_OT_RecaptureShapeKeys,
+    ARM_OT_BindControlRig,
+    ARM_OT_RemoveControlRig,
+    ANIM_OT_ImportAnimationMarkers,
+    CON_OT_ClearConsole,
+)
+
 def register():
-    bpy.utils.register_class(VIEW3D_PT_EmbersTools)
-    bpy.utils.register_class(MES_OT_RecaptureShapeKeys)
-    bpy.utils.register_class(ARM_OT_BindControlRig)
-    bpy.utils.register_class(ARM_OT_RemoveControlRig)
-    bpy.utils.register_class(CON_OT_ClearConsole)
+    for cls in classes:
+        bpy.utils.register_class(cls)
+    bpy.types.Scene.EmbersToolBox = bpy.props.PointerProperty(type=ToolBoxProperties)
 
 def unregister():
-    bpy.utils.unregister_class(CON_OT_ClearConsole)
-    bpy.utils.unregister_class(ARM_OT_RemoveControlRig)
-    bpy.utils.unregister_class(ARM_OT_BindControlRig)
-    bpy.utils.unregister_class(MES_OT_RecaptureShapeKeys)
-    bpy.utils.unregister_class(VIEW3D_PT_EmbersTools)
+    for cls in reversed(classes):
+        bpy.utils.unregister_class(cls)
+        del bpy.types.Scene.EmbersToolBox
 
 if __name__ == "__main__":
     register()
