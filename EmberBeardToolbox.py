@@ -4,7 +4,7 @@ import os
 bl_info = {
     "name": "Ember's Toolbox",
     "author": "Ember",
-    "version": (0, 0, 1),
+    "version": (0, 0, 2),
     "blender": (4, 0, 0),
     "location": "3D Viewport > Sidebar > Ember's Toolbox",
     "description": "A set of utilities written by and for Ember Beard",
@@ -14,6 +14,11 @@ bl_info = {
 #===========================================================
 # Mini utility functions
 #===========================================================
+
+def ShowMessageBox(title = "Example", message = "No message provided", icon = 'INFO'): #https://blender.stackexchange.com/questions/109711/how-to-popup-simple-message-box-from-python-console
+    def draw(self, context):
+        self.layout.label(text=message)
+    bpy.context.window_manager.popup_menu(draw, title = title, icon = icon)
 
 def GetArmatureModifierFromObject(InObject):
     for modifier in InObject.modifiers:
@@ -53,18 +58,19 @@ class MES_OT_RecaptureShapeKeys(bpy.types.Operator):
         Selection = context.selected_objects
         
         if(len(Selection) == 0): # we do this check first because clicking off a mesh WILL still result in an active object
+            ShowMessageBox("Failed", "There is no selection", 'ERROR')
             print("Empty selection")
             return {"CANCELLED"}
         if(PrimaryObject is None):
-            print("No object selected")
+            ShowMessageBox("Failed", "No object selected", 'ERROR')
             return {"CANCELLED"}
         if(PrimaryObject.type != 'MESH'):
-            print("This operation only acts on meshes")
+            ShowMessageBox("Failed", "You must have a mesh object focused as you active object", 'ERROR')
             return {"CANCELLED"}
         
         ArmatureModifier = GetArmatureModifierFromObject(PrimaryObject)
         if(ArmatureModifier is None):
-            print("No Armature Modifier Found")
+            ShowMessageBox("Failed", "The mesh has no Armature modifier", 'ERROR')
             return {"CANCELLED"}
         
         Markers = sorted(context.scene.timeline_markers, key=lambda m: m.frame)
