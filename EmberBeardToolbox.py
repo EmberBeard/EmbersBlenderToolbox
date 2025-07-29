@@ -244,7 +244,7 @@ class VIEW3D_PT_EmbersTools(bpy.types.Panel):
         InputFile = self.layout.column(align=True)
         InputFile.prop(context.scene.EmbersToolBox, "AnimationMarkersFilePath", text="")
         ImportAnimationMarkersRow = self.layout.row()
-        ImportAnimationMarkersRow.operator("animation.import_animation_markers", text="importAnimationMarkers")
+        ImportAnimationMarkersRow.operator("animation.import_animation_markers", text="import Animation Markers")
         
         self.layout.separator()
         
