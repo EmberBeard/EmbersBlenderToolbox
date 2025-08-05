@@ -1,4 +1,4 @@
---Visemes--
+-- VISEMES --
 SIL
 PP
 FF
@@ -18,7 +18,7 @@ OU
 
 
 
---Utility--
+-- UTILITY --
 EyesLookUp
 EyesLookDown
 EyesBlink
@@ -28,7 +28,7 @@ EyesBlink
 
 
 
---Emotions--
+-- EMOTIONS --
 Happy
 Angry
 Sad
@@ -38,7 +38,7 @@ Beaming
 
 
 
---FaceTracking--
+-- FACE TRACKING --
 EyeLookOutRight
 EyeLookInRight
 EyeLookUpRight
@@ -58,6 +58,8 @@ EyeDilationLeft
 EyeConstrictRight
 EyeConstrictLeft
 
+
+
 BrowPinchRight
 BrowPinchLeft
 BrowLowererRight
@@ -67,6 +69,8 @@ BrowInnerUpLeft
 BrowOuterUpRight
 BrowOuterUpLeft
 
+
+
 NoseSneerRight
 NoseSneerLeft
 NasalDilationRight
@@ -74,12 +78,16 @@ NasalDilationLeft
 NasalConstrictRight 
 NasalConstrictLeft
 
+
+
 CheekSquintRight
 CheekSquintLeft
 CheekPuffRight
 CheekPuffLeft
 CheekSuckRight
 CheekSuckLeft
+
+
 
 JawOpen
 MouthClosed
@@ -89,6 +97,8 @@ JawForward
 JawBackward
 JawClench
 JawMandibleRaise
+
+
 
 LipSuckUpperRight
 LipSuckUpperLeft
@@ -104,6 +114,8 @@ LipPuckerUpperRight
 LipPuckerUpperLeft
 LipPuckerLowerRight
 LipPuckerLowerLeft
+
+
 
 MouthUpperUpRight
 MouthUpperUpLeft
@@ -132,6 +144,8 @@ MouthPressLeft
 MouthTightenerRight
 MouthTightenerLeft
 
+
+
 TongueOut
 TongueUp
 TongueDown
@@ -145,12 +159,16 @@ TongueFlat
 TongueTwistRight
 TongueTwistLeft
 
+
+
 SoftPalateClose
 ThroatSwallow
 NeckFlexRight
 NeckFlexLeft
 
---MMD--
+
+
+-- MMD --
 まばたき
 笑い
 ウィンク

@@ -4,7 +4,7 @@ import os
 bl_info = {
     "name": "Ember's Toolbox",
     "author": "Ember",
-    "version": (0, 0, 3),
+    "version": (0, 0, 4),
     "blender": (4, 0, 0),
     "location": "3D Viewport > Sidebar > Ember's Toolbox",
     "description": "A set of utilities written by and for Ember Beard",
@@ -78,8 +78,9 @@ class MES_OT_RecaptureShapeKeys(bpy.types.Operator):
         for M in Markers:
             print(M.frame, "=", M.name)
             context.scene.frame_set(M.frame)
-            DestroyShapeKeyByNameIfItExists(PrimaryObject, M.name)
-            SaveCurrentFramePoseAsShapeKey(PrimaryObject, M.name, ArmatureModifier.name)
+            clean_name = M.name.strip()
+            DestroyShapeKeyByNameIfItExists(PrimaryObject, clean_name)
+            SaveCurrentFramePoseAsShapeKey(PrimaryObject, clean_name, ArmatureModifier.name)
         return {"FINISHED"}
 
 # Bind Control Rig operator
@@ -193,7 +194,9 @@ class ANIM_OT_ImportAnimationMarkers(bpy.types.Operator):
             line_count = 0
             for line in open_file:
                 if len(line) > 1:
-                    context.scene.timeline_markers.new(line, frame=line_count)
+                    final_string = line.strip() # this apparently is a cleanup function that will just remove preceeding and trailing newline characters - neat :3
+                    if len(final_string) > 1:
+                        context.scene.timeline_markers.new(final_string, frame=line_count)
                 line_count = line_count + 1
         return {"FINISHED"}
 
