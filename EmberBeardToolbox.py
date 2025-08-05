@@ -4,7 +4,7 @@ import os
 bl_info = {
     "name": "Ember's Toolbox",
     "author": "Ember",
-    "version": (0, 0, 4),
+    "version": (0, 0, 5),
     "blender": (4, 0, 0),
     "location": "3D Viewport > Sidebar > Ember's Toolbox",
     "description": "A set of utilities written by and for Ember Beard",
@@ -193,10 +193,9 @@ class ANIM_OT_ImportAnimationMarkers(bpy.types.Operator):
         
             line_count = 0
             for line in open_file:
-                if len(line) > 1:
-                    final_string = line.strip() # this apparently is a cleanup function that will just remove preceeding and trailing newline characters - neat :3
-                    if len(final_string) > 1:
-                        context.scene.timeline_markers.new(final_string, frame=line_count)
+                final_string = line.strip() # Strip removes preceding and trailing newline characters
+                if len(final_string) > 0:
+                    context.scene.timeline_markers.new(final_string, frame=line_count)
                 line_count = line_count + 1
         return {"FINISHED"}
 
