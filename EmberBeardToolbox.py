@@ -1,10 +1,11 @@
 import bpy
 import os
+import re # This is for regex handling
 
 bl_info = {
     "name": "Ember's Toolbox",
     "author": "Ember",
-    "version": (0, 0, 5),
+    "version": (0, 0, 6),
     "blender": (4, 0, 0),
     "location": "3D Viewport > Sidebar > Ember's Toolbox",
     "description": "A set of utilities written by and for Ember Beard",
@@ -19,6 +20,8 @@ def ShowMessageBox(title = "Example", message = "No message provided", icon = 'I
     def draw(self, context):
         self.layout.label(text=message)
     bpy.context.window_manager.popup_menu(draw, title = title, icon = icon)
+
+#-----------------------------------------------------------
 
 def GetArmatureModifierFromObject(InObject):
     for modifier in InObject.modifiers:
@@ -39,6 +42,27 @@ def DestroyShapeKeyByNameIfItExists(InObject, MarkerName):
 def SaveCurrentFramePoseAsShapeKey(InObject, MarkerName, ModifierName):
     bpy.ops.object.modifier_apply_as_shapekey(keep_modifier=True, modifier=ModifierName)
     InObject.data.shape_keys.key_blocks[ModifierName].name = MarkerName #When you save a shapekey from a modifier it inherits the name of the modifier. If a shapekey with that name already exists then it's corrected. I do not presently account for this but at the same time - I WILL NEVER leave a shape key left with the default name, so in theory they shouldn't be a problem....... but this will be an issue for someone at some point, consider this your probably too late warning and subsequent appology. (hugs)
+
+#-----------------------------------------------------------
+
+def parse_name_number_string(data_string):
+    """
+    Converts a single-line string of 'name space number space' into a map.
+    Regex captures names (with spaces) followed by their decimal numbers.
+    """
+    # Pattern explanation:
+    # (.*?)   -> Group 1: Non-greedy match for the name
+    # \s+     -> One or more spaces
+    # (\d+\.\d+|\d+) -> Group 2: The number (float or integer)
+    # \s*     -> Optional trailing space
+    pattern = r"(.+?)\s+(\d+\.\d+|\d+)\s*"
+    
+    # findall returns a list of (name, number) tuples
+    matches = re.findall(pattern, data_string)
+    
+    # Convert to map, float() handles the number conversion
+    # Duplicate names naturally overwrite earlier entries in a dict
+    return {name.strip(): float(num) for name, num in matches}
 
 #===========================================================
 # Custom operators
@@ -81,6 +105,42 @@ class MES_OT_RecaptureShapeKeys(bpy.types.Operator):
             clean_name = M.name.strip()
             DestroyShapeKeyByNameIfItExists(PrimaryObject, clean_name)
             SaveCurrentFramePoseAsShapeKey(PrimaryObject, clean_name, ArmatureModifier.name)
+        return {"FINISHED"}
+
+
+# Apply shapekey values to mesh
+#-----------------------------------------------------------
+
+class MES_OT_ApplyShapeKeyValues(bpy.types.Operator):
+    bl_idname = "mesh.apply_shape_key_values"
+    bl_label = "Apply the list of provided shapekeys and values to the selected mesh"
+    bl_options = {"REGISTER", "UNDO"}
+
+    def execute(self, context):
+        print("Applying given shapekey values to the selected mesh")
+        print(context.scene.EmbersToolBox.BlendShapesToApplyOnCommand)
+        
+        # Example Usage:
+        #This custom function expects strings formatted like this: "john smith 7.672 jane doe 5.0 bill 10 "
+        NameNumberMap = parse_name_number_string(context.scene.EmbersToolBox.BlendShapesToApplyOnCommand)
+        
+        # Now to loop over the meshes selected and set the blendshapes
+        # 1. Loop through all currently selected objects
+        for obj in bpy.context.selected_objects:
+            # 2. Safety check: Ensure the object is a mesh and has shape keys
+            if obj.type == 'MESH' and obj.data.shape_keys:
+                
+                # Access the collection of shape keys (key_blocks)
+                key_blocks = obj.data.shape_keys.key_blocks
+                
+                # 3. Iterate through your name-number map
+                for name, value in NameNumberMap.items():
+                
+                    # 4. Check if a shape key with that name exists on THIS mesh
+                    if name in key_blocks:
+                        # Set the blendshape value
+                        key_blocks[name].value = value
+                        print(f"Set '{name}' to {value} on {obj.name}")
         return {"FINISHED"}
 
 # Bind Control Rig operator
@@ -167,15 +227,6 @@ class ARM_OT_RemoveControlRig(bpy.types.Operator):
 # Import Animation Markers
 #-----------------------------------------------------------
 
-class ToolBoxProperties(bpy.types.PropertyGroup):
-    AnimationMarkersFilePath: bpy.props.StringProperty(
-        name="AnimationMarkersFilePath",
-        description="Path to a txt file denoting animation marker names and spacing",
-        default="",
-        maxlen=1024,
-        subtype='FILE_PATH'
-    )
-
 class ANIM_OT_ImportAnimationMarkers(bpy.types.Operator):
     bl_idname = "animation.import_animation_markers"
     bl_label = "ImportAnimationMarkers"
@@ -217,6 +268,28 @@ class CON_OT_ClearConsole(bpy.types.Operator):
         return {"FINISHED"}
 
 #===========================================================
+# Global toolbox properties
+#===========================================================
+
+class ToolBoxProperties(bpy.types.PropertyGroup):
+    # https://docs.blender.org/api/current/bpy_types_enum_items/property_subtype_items.html#rna-enum-property-subtype-items
+    BlendShapesToApplyOnCommand: bpy.props.StringProperty(
+        name="ShapeKeysToApply",
+        description="A list of names and values. These relate to blend shapes and values",
+        default="This is just some placeholder text",
+        maxlen=1024,
+        #subtype='BYTE_STRING'
+    )
+    
+    AnimationMarkersFilePath: bpy.props.StringProperty(
+        name="AnimationMarkersFilePath",
+        description="Path to a txt file denoting animation marker names and spacing",
+        default="",
+        maxlen=1024,
+        subtype='FILE_PATH'
+    )
+
+#===========================================================
 # The main helper panel with all the UI
 #===========================================================
 
@@ -231,6 +304,11 @@ class VIEW3D_PT_EmbersTools(bpy.types.Panel):
         self.layout.label(text="Geometry")
         RecaptureRow = self.layout.row()
         RecaptureRow.operator("mesh.recapture_shape_keys", text="Recapture as Shape Keys")
+
+        TextFeild = self.layout.column(align=True)
+        TextFeild.prop(context.scene.EmbersToolBox, "BlendShapesToApplyOnCommand", text="")
+        ApplyShapeKeysRow = self.layout.row()
+        ApplyShapeKeysRow.operator("mesh.apply_shape_key_values", text="Apply Shape Key Values to Mesh")
         
         self.layout.separator()
         
@@ -262,6 +340,7 @@ classes = (
     ToolBoxProperties,
     VIEW3D_PT_EmbersTools,
     MES_OT_RecaptureShapeKeys,
+    MES_OT_ApplyShapeKeyValues,
     ARM_OT_BindControlRig,
     ARM_OT_RemoveControlRig,
     ANIM_OT_ImportAnimationMarkers,
