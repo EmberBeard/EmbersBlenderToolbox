@@ -33,7 +33,7 @@ class VIEW3D_PT_EmbersTools(bpy.types.Panel):
         ApplyShapeKeysRow = self.layout.row()
         ApplyShapeKeysRow.operator("mesh.apply_shape_key_values", text="Apply Shape Key Values to Mesh")
         CopyShapeKeysRow = self.layout.row()
-        CopyShapeKeysRow.operator("mesh.copy_shape_key_values_as_string", text="Copy ShapeKey values as string")
+        CopyShapeKeysRow.operator("mesh.copy_shape_key_values_as_string", text="Copy Shape Key values To String")
         
         self.layout.separator()
         

@@ -2,12 +2,21 @@
 
 This is a small addon for blender containing a bunch of custom utilities to make my character/avatar development process for videogames a little easier. Maybe you'll find this useful.
 
+## Installation
+1. Clone the repository
+2. Right Click the folder called "EmberBeardToolbox" and compress it to a zip file
+3. In blender goto Edit > Preferences > Add-ons
+4. Click the little dropdown arrow in the top right and click "Install From Disk"
+5. Select the zip file you made and accept
+6. You're done - you should now have a tab called Ember's Tools in the right pain of the 3D viewport 😁
+
 ## Tools
 
 
 | Tool  | Description |
 | :------------- | :-------------|
 | Recapture as shapekeys | This will scrub an animation timeline for markers. At each marker, for the selected mesh in the scene, it will save the animation pose of the mesh from the armature as a shapekey. It will then name that shape key to match the marker. This is especially useful for when you want to generate blendshapes off the shape of a face rig |
+|Apply Shape Key Valeus To Mesh & Copy Shape Key Values To String|These two tools let you select a mesh and then instantly copy all shape keys with a non-zero value to your buffer as a string that can later be re-appled back to that mesh if you did something like reset your shapekey values.|
 | Bind Control Rig | Given two armatures, this command will apply a copy transform constraint to each bone between the two armatures where the bone name matches. This way you can have a game ready rig that deforms a mesh and has minimal bloat, and a secondary armature with the same central bone structure and a whole host of control bones and constraints separately. Marrying the two together in one scene is now just a button press.|
 | Remove Control Rig Bindings | This one is useful for when you need to iterate on your control rig and occasionally separate the two skeletons. Select your game rig and run this command - all copy transform constraints will be ripped off the skeleton. |
 | Import Animation Markers | This will allow you to provide your own .txt file and will import all the names to a marker on a per line basis - which is to say 1 line of the .txt file equals 1 marker in the animation timeline. The line number minus 1 equals where that marker will sit in the timeline. |
