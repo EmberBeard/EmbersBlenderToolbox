@@ -1,5 +1,4 @@
 import bpy
-import re # re... as in "regex"... REEEEEEEE...!!!
 
 from . import Properties, Helpers
 
@@ -30,23 +29,12 @@ def SaveCurrentFramePoseAsShapeKey(InObject, MarkerName, ModifierName):
 #-----------------------------------------------------------
 
 def parse_name_number_string(data_string):
-    """
-    Converts a single-line string of 'name space number space' into a map.
-    Regex captures names (with spaces) followed by their decimal numbers.
-    """
-    # Regex pattern explanation:
-    # (.*?)   -> Group 1: Non-greedy match for the name
-    # \s+     -> One or more spaces
-    # (\d+\.\d+|\d+) -> Group 2: The number (float or integer)
-    # \s*     -> Optional trailing space
-    pattern = r"(.+?)\s+(\d+\.\d+|\d+)\s*"
+    # Split by comma and clean up surrounding whitespace
+    parts = [item.strip() for item in data_string.split(',')]
     
-    # findall returns a list of (name, number) tuples
-    matches = re.findall(pattern, data_string)
-    
-    # Convert to map, float() handles the number conversion
-    # Duplicate names naturally overwrite earlier entries in a dict
-    return {name.strip(): float(num) for name, num in matches}
+    # Pair items (0,1), (2,3), etc. using an iterator
+    it = iter(parts)
+    return {name: float(num) for name, num in zip(it, it)}
 
 #===========================================================
 # MESH OPERATORS
@@ -91,7 +79,6 @@ class MES_OT_RecaptureShapeKeys(bpy.types.Operator):
             SaveCurrentFramePoseAsShapeKey(PrimaryObject, clean_name, ArmatureModifier.name)
         return {"FINISHED"}
 
-
 # Apply shapekey values to mesh
 #-----------------------------------------------------------
 
@@ -127,9 +114,44 @@ class MES_OT_ApplyShapeKeyValues(bpy.types.Operator):
                         print(f"Set '{name}' to {value} on {obj.name}")
         return {"FINISHED"}
 
+# Copy shape key values as a string
+#-----------------------------------------------------------
+
+class Mes_OT_CopyShapeKeyValues(bpy.types.Operator):
+    bl_idname = "mesh.copy_shape_key_values_as_string"
+    bl_label = "Copies all the shapekeys to the clipboard in a format where they can be easily reapplied"
+    bl_options = {"REGISTER", "UNDO"}
+
+    def execute(self, context):
+        obj = context.active_object
+        
+        if not obj or obj.type != 'MESH' or not obj.data.shape_keys:
+            Helpers.ShowMessageBox("Error: No mesh with shape keys selected.")
+            return
+        
+        active_shapes = []
+    
+        # Iterate and filter values > 0
+        for key in obj.data.shape_keys.key_blocks:
+            if key.value > 0:
+                active_shapes.append(f"{key.name}, {key.value:.3f}, ")
+    
+        if active_shapes:
+            final_string = "".join(active_shapes)
+            # 1. Store in Blender's window manager clipboard
+            bpy.context.window_manager.clipboard = final_string
+            Helpers.ShowMessageBox(f"Copied to clipboard: {final_string}")
+        else:
+            Helpers.ShowMessageBox("No active shape keys found to copy.")
+        
+        return {"FINISHED"}
+
+#-----------------------------------------------------------
+
 classes = (
     MES_OT_RecaptureShapeKeys,
     MES_OT_ApplyShapeKeyValues,
+    Mes_OT_CopyShapeKeyValues,
 )
 
 def register():

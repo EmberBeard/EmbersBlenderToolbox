@@ -87,6 +87,8 @@ class ARM_OT_RemoveControlRig(bpy.types.Operator):
         print()
         return {"FINISHED"}
 
+#-----------------------------------------------------------
+
 classes = (
     ARM_OT_BindControlRig,
     ARM_OT_RemoveControlRig,

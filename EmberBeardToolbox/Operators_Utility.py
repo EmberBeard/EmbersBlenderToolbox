@@ -55,6 +55,8 @@ classes = (
     CON_OT_ClearConsole,
 )
 
+#-----------------------------------------------------------
+
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)

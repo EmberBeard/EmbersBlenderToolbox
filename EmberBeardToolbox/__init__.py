@@ -5,7 +5,7 @@ from . import Operators_Armature, Operators_Mesh, Operators_Utility, Properties
 bl_info = {
     "name": "Ember's Toolbox",
     "author": "Ember",
-    "version": (0, 0, 6),
+    "version": (0, 0, 7),
     "blender": (4, 0, 0),
     "location": "3D Viewport > Sidebar > Ember's Toolbox",
     "description": "A set of utilities written by and for Ember Beard",
@@ -32,6 +32,8 @@ class VIEW3D_PT_EmbersTools(bpy.types.Panel):
         TextFeild.prop(context.scene.EmbersToolBox, "BlendShapesToApplyOnCommand", text="")
         ApplyShapeKeysRow = self.layout.row()
         ApplyShapeKeysRow.operator("mesh.apply_shape_key_values", text="Apply Shape Key Values to Mesh")
+        CopyShapeKeysRow = self.layout.row()
+        CopyShapeKeysRow.operator("mesh.copy_shape_key_values_as_string", text="Copy ShapeKey values as string")
         
         self.layout.separator()
         
