@@ -94,6 +94,8 @@ classes = (
     ARM_OT_RemoveControlRig,
 )
 
+#-----------------------------------------------------------
+
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)

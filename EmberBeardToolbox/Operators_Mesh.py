@@ -154,6 +154,8 @@ classes = (
     Mes_OT_CopyShapeKeyValues,
 )
 
+#-----------------------------------------------------------
+
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)

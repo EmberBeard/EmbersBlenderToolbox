@@ -10,8 +10,7 @@ class ToolBoxProperties(bpy.types.PropertyGroup):
         name="ShapeKeysToApply",
         description="A list of names and values. These relate to blend shapes and values",
         default="This is just some placeholder text",
-        maxlen=1024,
-        #subtype='BYTE_STRING'
+        maxlen=1024*4,
     )
     
     AnimationMarkersFilePath: bpy.props.StringProperty(
@@ -21,6 +20,8 @@ class ToolBoxProperties(bpy.types.PropertyGroup):
         maxlen=1024,
         subtype='FILE_PATH'
     )
+
+#-----------------------------------------------------------
 
 classes = (
     ToolBoxProperties,

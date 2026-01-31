@@ -1,11 +1,11 @@
 import bpy
 
-from . import Operators_Armature, Operators_Mesh, Operators_Utility, Properties
+from . import Operators_Animation, Operators_Armature, Operators_Mesh, Operators_Utility, Properties
 
 bl_info = {
     "name": "Ember's Toolbox",
     "author": "Ember",
-    "version": (0, 0, 7),
+    "version": (0, 0, 8),
     "blender": (4, 0, 0),
     "location": "3D Viewport > Sidebar > Ember's Toolbox",
     "description": "A set of utilities written by and for Ember Beard",
@@ -49,7 +49,10 @@ class VIEW3D_PT_EmbersTools(bpy.types.Panel):
         InputFile = self.layout.column(align=True)
         InputFile.prop(context.scene.EmbersToolBox, "AnimationMarkersFilePath", text="")
         ImportAnimationMarkersRow = self.layout.row()
-        ImportAnimationMarkersRow.operator("animation.import_animation_markers", text="import Animation Markers")
+        ImportAnimationMarkersRow.operator("animation.import_animation_markers", text="Import Animation Markers")
+        AnimateBlendShapesRow = self.layout.row()
+        AnimateBlendShapesRow.operator("animation.animate_blendshapes_to_timeline_markers", text="Animate Blendshapes To Timeline Markers")
+
         
         self.layout.separator()
         
@@ -68,6 +71,7 @@ classes = (
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
+    Operators_Animation.register()
     Operators_Armature.register()
     Operators_Mesh.register()
     Operators_Utility.register()
@@ -77,6 +81,7 @@ def unregister():
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
         del bpy.types.Scene.EmbersToolBox
+    Operators_Animation.unregister()
     Operators_Armature.unregister()
     Operators_Mesh.unregister()
     Operators_Utility.unregister()
