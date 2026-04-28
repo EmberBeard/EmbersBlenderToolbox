@@ -5,8 +5,8 @@ from . import Operators_Animation, Operators_Armature, Operators_Mesh, Operators
 bl_info = {
     "name": "Ember's Toolbox",
     "author": "Ember",
-    "version": (0, 0, 8),
-    "blender": (4, 0, 0),
+    "version": (0, 0, 9),
+    "blender": (5, 0, 0),
     "location": "3D Viewport > Sidebar > Ember's Toolbox",
     "description": "A set of utilities written by and for Ember Beard",
     "category": "Development",
