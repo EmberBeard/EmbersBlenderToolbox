@@ -47,7 +47,7 @@ def SaveCurrentFramePoseAsShapeKey(InObject, MarkerName, ArmatureModifiers):
         InObject.data.shape_keys.key_blocks[ArmatureModifiers[0].name].name = MarkerName #When you save a shapekey from a modifier it inherits the name of the modifier. If a shapekey with that name already exists then it's corrected. I do not presently account for this but at the same time - I WILL NEVER leave a shape key left with the default name, so in theory they shouldn't be a problem....... but this will be an issue for someone at some point, consider this your probably too late warning and subsequent appology. (hugs)
     else:
         for AM in ArmatureModifiers:
-            bpy.ops.object,modifier_apply_as_shapekey(keep_modifier=True, modifier=AM.name)
+            bpy.ops.object.modifier_apply_as_shapekey(keep_modifier=True, modifier=AM.name)
         for AM in ArmatureModifiers:
             InObject.data.shape_keys.key_blocks[AM.name].value = 1.0
         InObject.shape_key_add(name=MarkerName, from_mix=True)
