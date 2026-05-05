@@ -51,8 +51,9 @@ def SaveCurrentFramePoseAsShapeKey(InObject, MarkerName, ArmatureModifiers):
         for AM in ArmatureModifiers:
             InObject.data.shape_keys.key_blocks[AM.name].value = 1.0
         InObject.shape_key_add(name=MarkerName, from_mix=True)
+        InObject.data.shape_keys.key_blocks[MarkerName].value = 0.0
         for AM in ArmatureModifiers:
-            InOjbect.active_shape_key_index = InObject.data.shape_keys.key_blocks.keys().index(AM.name)
+            InObject.active_shape_key_index = InObject.data.shape_keys.key_blocks.keys().index(AM.name)
             bpy.ops.object.shape_key_remove()
 
 #-----------------------------------------------------------
