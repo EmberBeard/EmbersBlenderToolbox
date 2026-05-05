@@ -33,6 +33,7 @@ def CreateBasisShapekeyIfNoneExist(InObject):
 #-----------------------------------------------------------
 
 def ClearAllShapekeys(InObject):
+    print("Clear has been called")
     if InObject.data.shape_keys:
         for shapeKey in InObject.data.shape_keys.key_blocks:
             shapeKey.value = 0.0
@@ -51,7 +52,6 @@ def SaveCurrentFramePoseAsShapeKey(InObject, MarkerName, ArmatureModifiers):
         for AM in ArmatureModifiers:
             InObject.data.shape_keys.key_blocks[AM.name].value = 1.0
         InObject.shape_key_add(name=MarkerName, from_mix=True)
-        InObject.data.shape_keys.key_blocks[MarkerName].value = 0.0
         for AM in ArmatureModifiers:
             InObject.active_shape_key_index = InObject.data.shape_keys.key_blocks.keys().index(AM.name)
             bpy.ops.object.shape_key_remove()
@@ -120,6 +120,7 @@ class MES_OT_RecaptureShapeKeys(bpy.types.Operator):
             clean_name = M.name.strip()
             DestroyShapeKeyByNameIfItExists(PrimaryObject, clean_name)
             SaveCurrentFramePoseAsShapeKey(PrimaryObject, clean_name, ArmatureModifiers)
+            ClearAllShapekeys(PrimaryObject)
         return {"FINISHED"}
 
 # Apply shapekey values to mesh
