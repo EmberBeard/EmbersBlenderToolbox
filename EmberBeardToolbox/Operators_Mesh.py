@@ -116,6 +116,10 @@ class MES_OT_RecaptureShapeKeys(bpy.types.Operator):
         
         for M in Markers:
             print(M.frame, "=", M.name)
+            if len(M.name) <= 0:
+                continue
+            if M.name.startswith('#'): # If the string starts with a # then it's a comment and not something we want to catpure
+                continue
             context.scene.frame_set(M.frame)
             clean_name = M.name.strip()
             DestroyShapeKeyByNameIfItExists(PrimaryObject, clean_name)

@@ -1,3 +1,22 @@
+# EXPORT
+-- BODY SHAPES --
+Figure Feminine
+Figure Masculine
+Boobs Enable
+Boobs Small
+Boobs Big
+Muscular
+Chubby
+Wrists Slim
+Legs Plantigrade
+Beans Disable
+Hair Disable
+Cheek Fluff Disable
+Beard Enable
+Alternative Eyebrows
+Alternative Eyes
+
+
 -- VISEMES --
 SIL
 PP
@@ -33,6 +52,7 @@ Happy
 Angry
 Sad
 Smug
+Disappointed
 Beaming
 
 
