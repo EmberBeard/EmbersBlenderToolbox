@@ -1,21 +1,4 @@
 # EXPORT
--- BODY SHAPES --
-Figure Feminine
-Figure Masculine
-Boobs Enable
-Boobs Small
-Boobs Big
-Muscular
-Chubby
-Wrists Slim
-Legs Plantigrade
-Beans Disable
-Hair Disable
-Cheek Fluff Disable
-Beard Enable
-Alternative Eyebrows
-Alternative Eyes
-
 
 -- VISEMES --
 SIL
@@ -57,58 +40,57 @@ Beaming
 
 
 
-
 -- FACE TRACKING --
+# RIGHT - EYE
 EyeLookOutRight
 EyeLookInRight
 EyeLookUpRight
 EyeLookDownRight
+EyeClosedRight
+EyeSquintRight
+EyeWideRight
+EyeDilationRight
+EyeConstrictRight
+BrowPinchRight
+BrowLowererRight
+BrowInnerUpRight
+BrowOuterUpRight
+# LEFT - EYE
 EyeLookOutLeft
 EyeLookInLeft
 EyeLookUpLeft
 EyeLookDownLeft
-EyeClosedRight
 EyeClosedLeft
-EyeSquintRight
 EyeSquintLeft
-EyeWideRight
 EyeWideLeft
-EyeDilationRight
 EyeDilationLeft
-EyeConstrictRight
 EyeConstrictLeft
-
-
-
-BrowPinchRight
 BrowPinchLeft
-BrowLowererRight
 BrowLowererLeft
-BrowInnerUpRight
 BrowInnerUpLeft
-BrowOuterUpRight
 BrowOuterUpLeft
 
-
-
+# RIGHT - NOSE
 NoseSneerRight
-NoseSneerLeft
 NasalDilationRight
-NasalDilationLeft
 NasalConstrictRight
+# LEFT - NOSE
+NoseSneerLeft
+NasalDilationLeft
 NasalConstrictLeft
 
 
-
+# RIGHT- CHEEK
 CheekSquintRight
-CheekSquintLeft
 CheekPuffRight
-CheekPuffLeft
 CheekSuckRight
+# LEFT - CHEEK
+CheekSquintLeft
+CheekPuffLeft
 CheekSuckLeft
 
 
-
+# JAW
 JawOpen
 MouthClosed
 JawRight
@@ -118,54 +100,57 @@ JawBackward
 JawClench
 JawMandibleRaise
 
-
-
+# RIGHT - LIPS
 LipSuckUpperRight
-LipSuckUpperLeft
 LipSuckLowerRight
-LipSuckLowerLeft
 LipSuckCornerRight
-LipSuckCornerLeft
 LipFunnelUpperRight
-LipFunnelUpperLeft
 LipFunnelLowerRight
-LipFunnelLowerLeft
 LipPuckerUpperRight
-LipPuckerUpperLeft
 LipPuckerLowerRight
+# LEFT - LIPS
+LipSuckUpperLeft
+LipSuckLowerLeft
+LipSuckCornerLeft
+LipFunnelUpperLeft
+LipFunnelLowerLeft
+LipPuckerUpperLeft
 LipPuckerLowerLeft
 
 
 
+
+# RIGHT - MOUTH
 MouthUpperUpRight
-MouthUpperUpLeft
 MouthLowerDownRight
-MouthLowerDownLeft
 MouthUpperDeepenRight
-MouthUpperDeepenLeft
 MouthUpperRight
-MouthUpperLeft
 MouthLowerRight
-MouthLowerLeft
 MouthCornerPullRight
-MouthCornerPullLeft
 MouthCornerSlantRight
-MouthCornerSlantLeft
 MouthFrownRight
-MouthFrownLeft
 MouthStretchRight
-MouthStretchLeft
 MouthDimpleRight
+MouthPressRight
+MouthTightenerRight
+# LEFT - MOUTH
+MouthUpperUpLeft
+MouthLowerDownLeft
+MouthUpperDeepenLeft
+MouthUpperLeft
+MouthLowerLeft
+MouthCornerPullLeft
+MouthCornerSlantLeft
+MouthFrownLeft
+MouthStretchLeft
 MouthDimpleLeft
+MouthPressLeft
+MouthTightenerLeft
+# NEUTRAL - MOUTH
 MouthRaiserUpper
 MouthRaiserLower
-MouthPressRight
-MouthPressLeft
-MouthTightenerRight
-MouthTightenerLeft
 
-
-
+# TONGUE
 TongueOut
 TongueUp
 TongueDown
@@ -181,14 +166,7 @@ TongueTwistLeft
 
 
 
-SoftPalateClose
-ThroatSwallow
-NeckFlexRight
-NeckFlexLeft
-
-
-
--- FT COMPOUND SHAPES --
+# FT COMPOUND SHAPES
 EyeClosed
 EyeWide
 EyeSquint
@@ -250,3 +228,28 @@ MouthPress
 あ２
 ん
 ワ
+
+
+
+
+
+
+
+
+
+-- BODY SHAPES --
+Figure Feminine
+Figure Masculine
+Boobs Enable
+Boobs Small
+Boobs Big
+Muscular
+Chubby
+Wrists Slim
+Legs Plantigrade
+Beans Disable
+Hair Disable
+Cheek Fluff Disable
+Beard Enable
+Alternative Eyebrows
+Alternative Eyes
