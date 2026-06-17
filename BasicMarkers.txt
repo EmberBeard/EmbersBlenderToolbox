@@ -208,14 +208,23 @@ MouthPress
 MouthRaiser
 
 -- MMD --
+#Eyes
 まばたき
 笑い
 ウィンク
 ウィンク右
 ウィンク２
 ｳｨﾝｸ２右
+なごみ
 びっくり
+じと目
+瞳小
+喜び
+わぉ?!
+悲しむ
 敵意
+
+#Mouth
 あ
 い
 う
@@ -224,20 +233,57 @@ MouthRaiser
 あ２
 ん
 ワ
+にやり
+∧
+ぺろっ
+にっこり
+
+#EyeBrows
+真面目
+困る
+にこり
+怒り
+上
+下
+
+
+-- SHRINKERS --
+
+ShrinkArms1
+ShrinkArms2
+ShrinkArms3
+ShrinkArms4
+ShrinkArms5
+ShrinkHands
+ShrinkTorso1
+ShrinkTorso2
+ShrinkTorso3
+ShrinkLegs1
+ShrinkLegs2
+ShrinkLegs3
+ShrinkLegs4
+ShrinkLegs5
+ShrinkFeet
 
 -- BODY SHAPES --
 Figure Feminine
 Figure Masculine
+Neck Slender
+Neck Wide
+Hips Wider
+Thighs Thicker
 Boobs Enable
 Boobs Small
 Boobs Big
+Butt Big
+Pectoral Bigger
 Muscular
 Chubby
 Wrists Slim
 Legs Plantigrade
-Beans Disable
-Hair Disable
-Cheek Fluff Disable
-Beard Enable
-Alternative Eyebrows
+Beans Enable
+Cheek Fluff Enable
+Muzzle Feminine
+Muzzle Masculine
 Alternative Eyes
+Hair Disable
