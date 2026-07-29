@@ -33,13 +33,17 @@ EyesBlink
 
 
 
--- EMOTIONS --
-Happy
-Angry
+-- Expressions --
+EyesClosed
+TongueOut
+EyesWide
+Squint
 Sad
-Smug
-Disappointed
-Beaming
+Angry
+WinkRight
+WinkLeft
+Smile
+SmileMouthOpen
 
 
 
@@ -207,8 +211,17 @@ MouthTightener
 MouthPress
 MouthRaiser
 
+
+
+
+
+
+
+
+
+
+
 -- MMD --
-#Eyes
 まばたき
 笑い
 ウィンク
@@ -224,7 +237,6 @@ MouthRaiser
 悲しむ
 敵意
 
-#Mouth
 あ
 い
 う
@@ -232,13 +244,12 @@ MouthRaiser
 お
 あ２
 ん
+∧
 ワ
 にやり
-∧
-ぺろっ
 にっこり
+ぺろっ
 
-#EyeBrows
 真面目
 困る
 にこり
@@ -247,8 +258,19 @@ MouthRaiser
 下
 
 
--- SHRINKERS --
+-- BODY ANIMS --
+NoseBoop
+NoseTwitchRight
+NoseTwitchLeft
+HeadPat
+CheekSquishRight
+CheekSquishLeft
+BreathIn
 
+
+
+-- CLOTHING --
+ShringShoulders
 ShrinkArms1
 ShrinkArms2
 ShrinkArms3
@@ -265,25 +287,41 @@ ShrinkLegs4
 ShrinkLegs5
 ShrinkFeet
 
+
+
 -- BODY SHAPES --
 Figure Feminine
 Figure Masculine
 Neck Slender
 Neck Wide
-Hips Wider
-Thighs Thicker
-Boobs Enable
+Thighs Thicker A
+Thighs Thicker B
+Male Chest Disable
+Boobs Disable
 Boobs Small
 Boobs Big
 Butt Big
 Pectoral Bigger
-Muscular
-Chubby
+Form Muscular
+Form Chubby
 Wrists Slim
 Legs Plantigrade
-Beans Enable
-Cheek Fluff Enable
+Beans Disable
+Cheek Fluff Disable
+Face Softer
 Muzzle Feminine
 Muzzle Masculine
-Alternative Eyes
+Eyes Smaller
 Hair Disable
+Nose Arched
+Eye Highlight Disable
+Eyes Specular Disable
+
+
+
+
+
+
+
+
+#END
