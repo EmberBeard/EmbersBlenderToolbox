@@ -34,16 +34,19 @@ EyesBlink
 
 
 -- Expressions --
-EyesClosed
-TongueOut
+BlinkRight
+BlinkLeft
+WinkRight
+WinkLeft
+Blep
 EyesWide
 Squint
 Sad
+Sadder
 Angry
-WinkRight
-WinkLeft
-Smile
-SmileMouthOpen
+Angrier
+Happy
+Happier
 
 
 
@@ -316,6 +319,9 @@ Hair Disable
 Nose Arched
 Eye Highlight Disable
 Eyes Specular Disable
+Fluff Ears Disable
+Fluff Elbow Disable
+Fluff Ankle Disable
 
 
 

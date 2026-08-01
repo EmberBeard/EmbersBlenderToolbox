@@ -10,8 +10,6 @@ from . import Properties, Helpers
     
 def GetArmatureModifiersFromObject(InObject):
     modifiers = [mod for mod in InObject.modifiers if mod.type == 'ARMATURE']
-    if(len(modifiers) == 0):
-        return None
     return modifiers
 
 #-----------------------------------------------------------
@@ -100,7 +98,7 @@ class MES_OT_RecaptureShapeKeys(bpy.types.Operator):
             return {"CANCELLED"}
         
         ArmatureModifiers = GetArmatureModifiersFromObject(PrimaryObject)
-        if(ArmatureModifiers is None):
+        if(len(ArmatureModifiers)):
             Helpers.ShowMessageBox("Failed", "The mesh has no Armature modifier", 'ERROR')
             return {"CANCELLED"}
         
