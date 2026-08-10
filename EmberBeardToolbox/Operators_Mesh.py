@@ -98,7 +98,7 @@ class MES_OT_RecaptureShapeKeys(bpy.types.Operator):
             return {"CANCELLED"}
         
         ArmatureModifiers = GetArmatureModifiersFromObject(PrimaryObject)
-        if(len(ArmatureModifiers)):
+        if(len(ArmatureModifiers) == 0):
             Helpers.ShowMessageBox("Failed", "The mesh has no Armature modifier", 'ERROR')
             return {"CANCELLED"}
         
