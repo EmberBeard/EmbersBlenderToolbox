@@ -273,7 +273,7 @@ BreathIn
 
 
 -- CLOTHING --
-ShringShoulders
+ShrinkShoulders
 ShrinkArms1
 ShrinkArms2
 ShrinkArms3
@@ -309,6 +309,7 @@ Form Muscular
 Form Chubby
 Wrists Slim
 Legs Plantigrade
+Jaw Fuller
 Beans Disable
 Cheek Fluff Disable
 Face Softer
